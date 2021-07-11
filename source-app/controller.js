@@ -118,8 +118,10 @@ return{
 
 		        // get an eventhub once the fabric client has a user assigned. The user
 		        // is required bacause the event registration must be signed
-		        let event_hub = fabric_client.newEventHub();
-		        event_hub.setPeerAddr('grpc://localhost:7053');
+		        // let event_hub = fabric_client.newEventHub();
+				let event_hub = channel.newChannelEventHub('localhost:7051');
+
+		        // event_hub.setPeerAddr('grpc://localhost:7053');
 
 		        // using resolve the promise so that result status may be processed
 		        // under the then clause rather than having the catch clause process
@@ -143,7 +145,7 @@ return{
 		                    console.error('The transaction was invalid, code = ' + code);
 		                    resolve(return_status); // we could use reject(new Error('Problem with the tranaction, event status ::'+code));
 		                } else {
-		                    console.log('The transaction has been committed on peer ' + event_hub._ep._endpoint.addr);
+		                    console.log('The transaction has been committed on peer ' + event_hub.getPeerAddr());
 		                    resolve(return_status);
 		                }
 		            }, (err) => {
